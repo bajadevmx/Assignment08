@@ -27,33 +27,47 @@ buildGrid()
 // ADD EMPLOYEE
 form.addEventListener('submit', (e) => {
     // PREVENT FORM SUBMISSION
+    e.preventDefault()
 
     // GET THE VALUES FROM THE TEXT BOXES
+    let eID= parseInt(document.getElementById('id').value)
+    let eName= parseInt(document.getElementById('name').value)
+    let eExtension= parseInt(document.getElementById('extension').value)
+    let eEmail= (document.getElementById('email').value)
+    let eDept= (document.getElementById('department').value)
 
     // ADD THE NEW EMPLOYEE TO A NEW ARRAY OBJECT
+    let arrNewEmp= [eID, eName,eExtension,eEmail,eDept]
 
     // PUSH THE NEW ARRAY TO THE *EXISTING* EMPLOYEES ARRAY
+    arEmployees.push(arrNewEmp)
 
     // BUILD THE GRID
+    buildGrid()
 
     // RESET THE FORM
+    form.requestFullscreen()
 
     // SET FOCUS BACK TO THE ID TEXT BOX
-
+    form.id.focus()
+    
 });
 
 // DELETE EMPLOYEE
 empTable.addEventListener('click', (e) => {
     // CONFIRM THE DELETE
     if (e.target.classList.contains('delete')){
+if (confirm('Are you sure you want to delete the user?')) {
+            // GET THE SELECTED ROWINDEX FOR THE TR (PARENTNODE.PARENTNODE)
+            let rIndex= e.target.parentElement.rIndex
 
+            // REMOVE EMPLOYEE FROM ARRAY
+             arEmployees.splice(rIndex-1,1)
+        
+            // BUILD THE GRID
+            buildGrid()
+        }
     }
-        // GET THE SELECTED ROWINDEX FOR THE TR (PARENTNODE.PARENTNODE)
-
-        // REMOVE EMPLOYEE FROM ARRAY
-
-        // BUILD THE GRID
-
 });
 
 // BUILD THE EMPLOYEES GRID
@@ -72,16 +86,13 @@ function buildGrid() {
         `
         <tr>
         <td>${employee[0]}</td>
-        ${employee[1]}
-        ${employee[2]}
-        ${employee[3]}
-        ${employee[4]}
-        <td>
-            <button class='btn btn-sm btn-light delete'>
-                <i class='fa-solid fa-trash-can'></i>
-            </button>
-        </td>
-        `
+        <td>${employee[1]}</td>
+        <td>${employee[2]}</td>
+        <td>${employee[3]}</td>
+        <td>${employee[4]}</td>
+        <td><button class='btn btn-sm btn-light delete'><i class="fa-solid fa-trash-can"></i></button></td>
+        </tr>
+    `
     }
     // BIND THE TBODY TO THE EMPLOYEE TABLE
     empTable.appendChild(tbody)
